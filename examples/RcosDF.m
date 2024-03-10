@@ -13,14 +13,14 @@ fvtool(hn,'Analysis','impulse'); %将脉冲响应可视化
 
 [H, w] = freqz(hn,1);
 
-figure(1);
-plot(hn);
-
-figure(2);
-plot(w/pi, 20*log10(abs(H)));
-
-figure(3);
-plot(w/pi, angle(H));
+% figure(1);
+% plot(hn);
+% 
+% figure(2);
+% plot(w/pi, 20*log10(abs(H)));
+% 
+% figure(3);
+% plot(w/pi, angle(H));
 
 %****************************  仿真结论 ***************%
 %%%%%成型滤波器rcosdesign的使用
