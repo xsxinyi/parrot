@@ -40,9 +40,9 @@ rcos_fir = rcosdesign(rollof_factor, 6, sps);
 %%插值
 up16_bipolar_msg_source = upsample(bipolar_msg_source, sps);
 
-% figure(4);
-% stem(up16_bipolar_msg_source,'.');axis([0,30*sps,-2,2]);
-% title('信源经插值后的时域波形');
+figure(4);
+stem(up16_bipolar_msg_source,'.');axis([0,30*sps,-2,2]);
+title('信源经插值后的时域波形');
 % figure(5);
 % [H2,w2] = freqz(up16_bipolar_msg_source, 1, 'whole');
 % plot(w2/pi,abs(H2));
@@ -58,10 +58,10 @@ up16_bipolar_msg_source = upsample(bipolar_msg_source, sps);
 
 rcos_msg_source = filter(rcos_fir, 1, up16_bipolar_msg_source);
 
-% figure(8);
-% % plot(rcos_msg_source);
-% stem(rcos_msg_source,'.');
-% title('通过平方根升余弦滤波器后的时域波形');
+figure(8);
+% plot(rcos_msg_source);
+stem(rcos_msg_source,'.');
+title('通过平方根升余弦滤波器后的时域波形');
 % figure(9);
 % [H4,w4] = freqz(rcos_msg_source, 1, 'whole');
 % plot(w4/pi,abs(H4));
@@ -95,9 +95,10 @@ snr = ebn0 - 10*log10(0.5*16);
     % rrier, snr(i), "measured");
     rcos_msg_source_carrier_addnoise = awgn(rcos_msg_source_carrier, -6, "measured");
 
-    % figure(12);
+    figure(12);
     % stem(rcos_msg_source_carrier_addnoise,'.');
-    % title('上载波加噪声后的时域波形');
+    plot(rcos_msg_source_carrier_addnoise);
+    title('上载波加噪声后的时域波形');
     % figure(13);
     % [H6,w6] = freqz(rcos_msg_source_carrier_addnoise, 1, 'whole');
     % plot(w6/pi,abs(H6));
@@ -107,10 +108,10 @@ snr = ebn0 - 10*log10(0.5*16);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  接收机 %%%%%%%%%%%%%%%%%%%%%%%%%
     rcos_msg_source_addnoise = rcos_msg_source_carrier_addnoise.*cos(2*pi*fc.*time/fs);
 
-    % figure(14)
-    % % plot(rcos_msg_source_addnoise);
+    figure(14)
+    plot(rcos_msg_source_addnoise);
     % stem(rcos_msg_source_addnoise,'.');
-    % title('相干解调后的接收时域波形');
+    title('相干解调后的接收时域波形');
     % figure(15);
     % [H7,w7] = freqz(rcos_msg_source_addnoise, 1, 'whole');
     % plot(w7/pi,abs(H7));
@@ -120,10 +121,10 @@ snr = ebn0 - 10*log10(0.5*16);
     fir_lp = fir1(128, 0.2);
     rcos_msg_source_lp = filter(fir_lp, 1, rcos_msg_source_addnoise);
 
-    % figure(16)
-    % % plot(rcos_msg_source_addnoise);
-    % stem(rcos_msg_source_lp,'.');
-    % title('经过低通FIR滤波器后的接收时域波形');
+    figure(16)
+    % plot(rcos_msg_source_addnoise);
+    stem(rcos_msg_source_lp,'.');
+    title('经过低通FIR滤波器后的接收时域波形');
     % figure(17);
     % [H8,w8] = freqz(rcos_msg_source_lp, 1, 'whole');
     % plot(w8/pi,abs(H8));
@@ -132,10 +133,10 @@ snr = ebn0 - 10*log10(0.5*16);
     rcos_fir = rcosdesign(rollof_factor, 6, sps);
     rcos_msg_source_MF = filter(rcos_fir, 1, rcos_msg_source_lp);
 
-    % figure(18)
-    % % plot(rcos_msg_source_addnoise);
-    % stem(rcos_msg_source_MF,'.');
-    % title('经过平方根余弦滤波器后的接收时域波形');
+    figure(18)
+    % plot(rcos_msg_source_addnoise);
+    stem(rcos_msg_source_MF,'.');
+    title('经过平方根余弦滤波器后的接收时域波形');
     % figure(19);
     % [H9,w9] = freqz(rcos_msg_source_MF, 1, 'whole');
     % plot(w9/pi,abs(H9));
