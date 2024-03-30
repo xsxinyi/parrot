@@ -48,6 +48,9 @@ rcos_msg_source_carrier = rcos_msg_source.*cos(2*pi*fc.*time/fs);
 ebn0 = -6:8;
 snr = ebn0 - 10*log10(0.5*16);
 
+err_number = zeros(1, length(ebn0));
+bit_err_ratio = zeros(1, length(ebn0));
+
 for i = 1:length(snr)
     rcos_msg_source_carrier_addnoise = awgn(rcos_msg_source_carrier, snr(i), "measured");
 
