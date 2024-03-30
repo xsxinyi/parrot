@@ -76,9 +76,11 @@ for q = 1:length(EbN0_dB)
     tber(q) = qfunc(sqrt(2*EbN0(q)));   % 理论误比特率
 end
 figure
-semilogy(EbN0_dB,ber,'M-X',EbN0_dB,tber,'B-O');     % 画图
+ber_BPSK = berawgn(EbN0_dB, 'psk', 2, 'nondiff');
+semilogy(EbN0_dB,ber,'M-X',EbN0_dB,tber,'B-O', EbN0_dB, ber_BPSK);     % 画图
 grid on;                                        % 坐标轴开启
 axis([0 10 10^-5 10^-1])                        % 限制作图范围
 xlabel('Eb/N0 (dB)');                           % 横坐标
 ylabel('BER');                                  % 纵坐标
-legend('BPSK+(7,4)汉明码仿真误比特率','BPSK理论误比特率');   % 图例
+legend('BPSK+(7,4)汉明码仿真误比特率','BPSK理论误比特率', 'BPSK的理论误比特率2');   % 图例
+
