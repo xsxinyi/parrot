@@ -69,7 +69,7 @@ for i = 1:length(snr)
 
     rcos_msg_source_MF = filter(rcos_fir, 1, rcos_msg_source_lp);
 
-    decision_site = 160;
+    decision_site = 160 + 1;
 
     rcos_msg_source_MF_option = rcos_msg_source_MF(decision_site:sps:end);
 
