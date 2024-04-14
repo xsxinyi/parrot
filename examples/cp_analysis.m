@@ -23,10 +23,11 @@ rect_sin_signal2 = sin((t-0.02)*1.5*f*2*pi).*rect_win;
 
 %% 不加 CP 时
 figure(1);
-subplot(3,1,1);
+subplot(4,1,1);
 plot(t, rect_sin_signal1);
 hold on;
 plot(t, rect_sin_signal2);
+xlim([-0.05,0.15]);
 
 % 使用FFT将时域信号转换到频域
 X_rect_sin1 = fft(rect_sin_signal1); % 进行FFT
@@ -35,7 +36,7 @@ X_rect_sin2 = fft(rect_sin_signal2); % 进行FFT
 X_rect_sin_shifted2 = fftshift(X_rect_sin2); % 频域信号以0Hz为中心（将直流分量移到中央）
 
 % 绘制频域信号
-subplot(3,1,2);
+subplot(4,1,2);
 Xf = (-N/2:N/2-1)*(1/(T*N)); % 频率坐标
 plot(Xf, abs(X_rect_sin_shifted1) / max(abs(X_rect_sin_shifted1))); % 取模并正规化至0至1
 hold on;
@@ -46,7 +47,7 @@ xlabel('Frequency (Hz)');
 ylabel('Normalized Magnitude');
 xlim([-100, 100]);
 
-subplot(3,1,3);
+subplot(4,1,3);
 rect_sin_signal = rect_sin_signal1 + rect_sin_signal2;
 X_rect_sin = fft(rect_sin_signal); % 进行FFT
 X_rect_sin_shifted = fftshift(X_rect_sin); % 频域信号以0Hz为中心（将直流分量移到中央）
@@ -54,17 +55,25 @@ Xf = (-N/2:N/2-1)*(1/(T*N)); % 频率坐标
 plot(Xf, abs(X_rect_sin_shifted) / max(abs(X_rect_sin_shifted))); % 取模并正规化至0至1
 xlim([-100, 100]);
 
+subplot(4,1,4);
+X = X_rect_sin_shifted1 + X_rect_sin_shifted2;
+Xf = (-N/2:N/2-1)*(1/(T*N)); % 频率坐标
+temp = abs(X)/max(abs(X));
+plot(Xf, abs(X) / max(abs(X))); % 取模并正规化至0至1
+xlim([-100, 100]);
+
 %% 加 CP 时
 add_cp_signal1 = rect_sin_signal1;
-add_cp_signal1(514:533) = rect_sin_signal1(613:632);
+add_cp_signal1(513:532) = rect_sin_signal1(613:632);
 add_cp_signal2 = rect_sin_signal2;
-add_cp_signal2(514:533) = rect_sin_signal2(613:632);
+add_cp_signal2(513:532) = rect_sin_signal2(613:632);
 
 figure(2);
-subplot(3,1,1);
+subplot(4,1,1);
 plot(t, add_cp_signal1);
 hold on;
 plot(t, add_cp_signal2);
+xlim([-0.05,0.15]);
 
 % 使用FFT将时域信号转换到频域
 X_cp1 = fft(add_cp_signal1); % 进行FFT
@@ -73,7 +82,7 @@ X_cp2 = fft(add_cp_signal2); % 进行FFT
 X_cp_shifted2 = fftshift(X_cp2); % 频域信号以0Hz为中心（将直流分量移到中央）
 
 % 绘制频域信号
-subplot(3,1,2);
+subplot(4,1,2);
 Xf = (-N/2:N/2-1)*(1/(T*N)); % 频率坐标
 plot(Xf, abs(X_cp_shifted1) / max(abs(X_cp_shifted1))); % 取模并正规化至0至1
 hold on;
@@ -84,10 +93,16 @@ xlabel('Frequency (Hz)');
 ylabel('Normalized Magnitude');
 xlim([-100, 100]);
 
-subplot(3,1,3);
+subplot(4,1,3);
 add_cp_signal = add_cp_signal1 + add_cp_signal2;
 X_cp = fft(add_cp_signal); % 进行FFT
 X_cp_shifted = fftshift(X_cp); % 频域信号以0Hz为中心（将直流分量移到中央）
 Xf = (-N/2:N/2-1)*(1/(T*N)); % 频率坐标
 plot(Xf, abs(X_cp_shifted) / max(abs(X_cp_shifted))); % 取模并正规化至0至1
+xlim([-100, 100]);
+
+subplot(4,1,4);
+X2 = X_cp_shifted1 + X_cp_shifted2;
+Xf = (-N/2:N/2-1)*(1/(T*N)); % 频率坐标
+plot(Xf, abs(X2) / max(abs(X2))); % 取模并正规化至0至1
 xlim([-100, 100]);
