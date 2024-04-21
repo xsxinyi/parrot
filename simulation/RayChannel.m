@@ -46,28 +46,34 @@ xlabel('角度大小'); % x轴标签
 ylabel('分布'); % y轴标签
 
 %% 信号经过瑞利信道
-nsym = 4;
-fs = 1;
+%% 好像频率越高，影响越小 nsym = fs = 10 的影响小于 = 5 时，远小于 = 2时。 和相干时间有关？
+% 幅度
+A = 1;
+% 符号数
+nsym = 10;
+% 符号率
+fs = 10;
 sps = N/nsym;
-x = [zeros(1, sps) ones(1, sps) zeros(1, sps) zeros(1, sps)];
-x = 2*x - 1;
-t = 0:nsym*sps-1;
+t = 0:N-1;
 t = t / fs / sps;
+squareWave = A * square(2*pi*fs*t);
+
+% 给 squareWave 作图
 subplot(3,2,3);
-plot(t, x);
+plot(t, squareWave);
 ylim([-1.2, 1.2]);
 title('输入信号时域图形'); % 图形标题
 xlabel('时间（秒）'); % x轴标签
 ylabel('幅度'); % y轴标签
 
-X = fft(x);
+X = fft(squareWave);
 
 % 给 X 作图
 f_Nyquist = sps * fs;
 % 1Hz 是几个采样点。
 dot_per_f = length(X) / f_Nyquist;
-% 方波的频率是 sinc 函数，只画到 20Hz 就够了。
-f_plot = 20*dot_per_f;
+% 方波的频率是 sinc 函数，只画到 200Hz 就够了。
+f_plot = 200*dot_per_f;
 X1 = X(1:f_plot);
 subplot(3,2,4);
 plot(abs(X1));
@@ -87,7 +93,7 @@ ylabel('幅度'); % y轴标签
 
 y = ifft(Y);
 subplot(3,2,6);
-plot(t, y);
+plot(t, real(y));
 title('输出信号时域图形'); % 图形标题
 xlabel('时间（秒）'); % x轴标签
 ylabel('幅度'); % y轴标签
